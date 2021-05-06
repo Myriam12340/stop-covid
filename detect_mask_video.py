@@ -19,7 +19,7 @@ def detect_and_predict_mask(frame, faceNet, maskNet):
 	# pass the blob through the network and obtain the face detections
 	faceNet.setInput(blob)
 	detections = faceNet.forward()
-	print(detections.shape)
+
 
 	# initialize our list of faces, their corresponding locations,
 	# and the list of predictions from our face mask network
@@ -84,45 +84,89 @@ print("[INFO] starting video stream...")
 vs = VideoStream(src=0).start()
 
 # loop over the frames from the video stream
-while True:
-	# grab the frame from the threaded video stream and resize it
-	# to have a maximum width of 400 pixels
-	frame = vs.read()
-	frame = imutils.resize(frame, width=400)
-
-	# detect faces in the frame and determine if they are wearing a
-	# face mask or not
-	(locs, preds) = detect_and_predict_mask(frame, faceNet, maskNet)
+while True :
+    test="no"
+    # grab the frame from the threaded video stream and resize it
+    # to have a maximum width of 400 pixels
+    frame = vs.read()
+    frame = imutils.resize(frame, width=700)
+     
+        
+    # detect faces in the frame and determine if they are wearing a
+    # face mask or not
+    (locs, preds) = detect_and_predict_mask(frame, faceNet, maskNet)
 
 	# loop over the detected face locations and their corresponding
 	# locations
-	for (box, pred) in zip(locs, preds):
+    for (box, pred) in zip(locs, preds):     
 		# unpack the bounding box and predictions
-		(startX, startY, endX, endY) = box
-		(mask, withoutMask) = pred
+        (startX, startY, endX, endY) = box
+        (mask, withoutMask) = pred
 
 		# determine the class label and color we'll use to draw
 		# the bounding box and text
-		label = "Mask" if mask > withoutMask else "No Mask"
-		color = (0, 255, 0) if label == "Mask" else (0, 0, 255)
-
+        if mask > withoutMask :
+           # label = "Mask"
+            test="ok"
+            
+        else :
+            #label="No Mask"""
+            test="no"
+           
+            
+        """if  label == "Mask" :
+            color = (0, 255, 0)
+        else :
+            color=(0, 0, 255)"""
+            
+        """label = "Mask" if mask > withoutMask else "No Mask"
+        color = (0, 255, 0) if label == "Mask" else (0, 0, 255)"""
+         
 		# include the probability in the label
-		label = "{}: {:.2f}%".format(label, max(mask, withoutMask) * 100)
+        """label = "{}: {:.2f}%".format(label, max(mask, withoutMask) * 100)"""
 
 		# display the label and bounding box rectangle on the output
 		# frame
-		cv2.putText(frame, label, (startX, startY - 10),
+        """cv2.putText(frame, label, (startX, startY - 10),
 			cv2.FONT_HERSHEY_SIMPLEX, 0.45, color, 2)
-		cv2.rectangle(frame, (startX, startY), (endX, endY), color, 2)
+        cv2.rectangle(frame, (startX, startY), (endX, endY), color, 2)"""
 
 	# show the output frame
-	cv2.imshow("Frame", frame)
-	key = cv2.waitKey(1) & 0xFF
+    """cv2.imshow("Frame", frame)
+    key = cv2.waitKey(1) & 0xFF"""
 
 	# if the `q` key was pressed, break from the loop
-	if key == ord("q"):
-		break
-
+    if test=="ok":
+        print("mrigel")
+        break
+    elif  test=="no":
+        print("ana mouch mrigel hhhh")    
+        break
+ 
 # do a bit of cleanup
 cv2.destroyAllWindows()
 vs.stop()
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+        
+
+
+
+
+
